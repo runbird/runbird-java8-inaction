@@ -41,6 +41,7 @@ public class ForkJoinSumCalculator extends RecursiveTask<Long> {
     @Override
     protected Long compute() {
         int length = end - start;
+        //拆分最小单元 顺行执行
         if (length <= THRESHOLD) {
             return computeSequentially();
         }
@@ -57,6 +58,7 @@ public class ForkJoinSumCalculator extends RecursiveTask<Long> {
         return leftResult + rightResult;
     }
 
+    /** 在阈值之内，采用普通方法*/
     private long computeSequentially() {
         long sum = 0;
         for (int i = start; i < end; i++) {
@@ -67,6 +69,7 @@ public class ForkJoinSumCalculator extends RecursiveTask<Long> {
 
     public static long forkJoinSum(long n) {
         long[] numbsers = LongStream.rangeClosed(1,n).toArray();
+        //ForkJoinTask 是 RecursiveTask 父类
         ForkJoinTask<Long> task = new ForkJoinSumCalculator(numbsers);
         return new ForkJoinPool().invoke(task);
     }
