@@ -43,8 +43,13 @@ public class LambdaDemo2 {
         String oneLine;
         String twoLine;
         try {
+
             oneLine = processFile2(BufferedReader::readLine);
+
             twoLine = processFile2((BufferedReader br) -> br.readLine() + br.readLine());
+
+            BufferedReaderProcessor bp = (BufferedReader br) -> br.readLine();
+            String result = processFile2(bp);
         } catch (IOException e) {
             e.printStackTrace();
         }
